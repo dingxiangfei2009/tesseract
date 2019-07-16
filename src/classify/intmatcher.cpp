@@ -29,7 +29,6 @@
 #include "fontinfo.h"
 #include "intproto.h"
 #include "callcpp.h"
-#include "scrollview.h"
 #include "float2int.h"
 #include "helpers.h"
 #include "classify.h"

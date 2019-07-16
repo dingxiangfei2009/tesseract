@@ -87,8 +87,10 @@ class AlignedBlob : public BlobGrid {
   // and the debug level is at least the given detail level.
   static bool WithinTestRegion(int detail_level, int x, int y);
 
+#ifndef GRAPHICS_DISABLED
   // Display the tab codes of the BLOBNBOXes in this grid.
   ScrollView* DisplayTabs(const char* window_name, ScrollView* tab_win);
+#endif
 
   // Finds a vector corresponding to a set of vertically aligned blob edges
   // running through the given box. The type of vector returned and the

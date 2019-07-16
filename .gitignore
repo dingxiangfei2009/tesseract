@@ -75,6 +75,7 @@ build/*
 *.class
 *.jar
 __pycache__
+CMakeFiles/
 
 # tessdata
 *.traineddata

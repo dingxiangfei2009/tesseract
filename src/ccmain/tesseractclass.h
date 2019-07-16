@@ -53,7 +53,9 @@ class PAGE_RES;
 class PAGE_RES_IT;
 struct Pix;
 class ROW;
+#ifndef GRAPHICS_DISABLED
 class SVMenuNode;
+#endif
 class TBOX;
 class TO_BLOCK_LIST;
 class WERD;
@@ -559,12 +561,12 @@ class Tesseract : public Wordrec {
                            GenericVector<STRING>* not_to_load);
 
   //// pgedit.h //////////////////////////////////////////////////////////
-  SVMenuNode* build_menu_new();
 #ifndef GRAPHICS_DISABLED
+  SVMenuNode* build_menu_new();
   void pgeditor_main(int width, int height, PAGE_RES* page_res);
-#endif                       // GRAPHICS_DISABLED
   void process_image_event(  // action in image win
       const SVEvent& event);
+#endif                       // GRAPHICS_DISABLED
   bool process_cmd_win_event(  // UI command semantics
       int32_t cmd_event,       // which menu item?
       char* new_value          // any prompt data

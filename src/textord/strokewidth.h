@@ -26,7 +26,9 @@
 #include "textlineprojection.h"
 
 class DENORM;
+#ifndef GRAPHICS_DISABLED
 class ScrollView;
+#endif  // GRAPHICS_DISABLED
 class TO_BLOCK;
 
 namespace tesseract {
@@ -321,6 +323,7 @@ class StrokeWidth : public BlobGrid {
   // Returns true if there is no significant noise in between the boxes.
   bool NoNoiseInBetween(const TBOX& box1, const TBOX& box2) const;
 
+#ifndef GRAPHICS_DISABLED
   // Displays the blobs colored according to the number of good neighbours
   // and the vertical/horizontal flow.
   ScrollView* DisplayGoodBlobs(const char* window_name, int x, int y);
@@ -328,6 +331,7 @@ class StrokeWidth : public BlobGrid {
   // Displays blobs colored according to whether or not they are diacritics.
   ScrollView* DisplayDiacritics(const char* window_name,
                                 int x, int y, TO_BLOCK* block);
+#endif
 
  private:
   // Image map of photo/noise areas on the page. Borrowed pointer (not owned.)
@@ -340,6 +344,7 @@ class StrokeWidth : public BlobGrid {
   TBOX grid_box_;
   // Rerotation to get back to the original image.
   FCOORD rerotation_;
+#ifndef GRAPHICS_DISABLED
   // Windows for debug display.
   ScrollView* leaders_win_;
   ScrollView* initial_widths_win_;
@@ -348,6 +353,7 @@ class StrokeWidth : public BlobGrid {
   ScrollView* diacritics_win_;
   ScrollView* textlines_win_;
   ScrollView* smoothed_win_;
+#endif
 };
 
 }  // namespace tesseract.

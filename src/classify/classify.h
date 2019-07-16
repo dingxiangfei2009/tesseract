@@ -75,7 +75,9 @@ class Classify : public CCStruct {
 #include "ocrfeatures.h"
 #include "unicity_table.h"
 
+#ifndef GRAPHICS_DISABLED
 class ScrollView;
+#endif
 class WERD_CHOICE;
 class WERD_RES;
 struct ADAPT_RESULTS;
@@ -327,8 +329,10 @@ class Classify : public CCStruct {
     return AdaptedTemplates->NumPermClasses == 0;
   }
   bool LooksLikeGarbage(TBLOB *blob);
+#ifndef GRAPHICS_DISABLED
   void RefreshDebugWindow(ScrollView **win, const char *msg,
                           int y_offset, const TBOX &wbox);
+#endif
   // intfx.cpp
   // Computes the DENORMS for bl(baseline) and cn(character) normalization
   // during feature extraction. The input denorm describes the current state
@@ -573,9 +577,11 @@ class Classify : public CCStruct {
   uint16_t CharNormCutoffs[MAX_NUM_CLASSES];
   uint16_t BaselineCutoffs[MAX_NUM_CLASSES];
   GenericVector<uint16_t> shapetable_cutoffs_;
+#ifndef GRAPHICS_DISABLED
   ScrollView* learn_debug_win_;
   ScrollView* learn_fragmented_word_debug_win_;
   ScrollView* learn_fragments_debug_win_;
+#endif
 };
 }  // namespace tesseract
 

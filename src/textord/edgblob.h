@@ -19,7 +19,6 @@
 #ifndef           EDGBLOB_H
 #define           EDGBLOB_H
 
-#include          "scrollview.h"
 #include          "params.h"
 #include          "ocrblock.h"
 #include          "coutln.h"

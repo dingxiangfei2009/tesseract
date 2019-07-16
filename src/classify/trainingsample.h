@@ -104,7 +104,9 @@ class TrainingSample : public ELIST_LINK {
   // Returns a pix representing the sample. (Int features only.)
   Pix* RenderToPix(const UNICHARSET* unicharset) const;
   // Displays the features in the given window with the given color.
+#ifndef GRAPHICS_DISABLED
   void DisplayFeatures(ScrollView::Color color, ScrollView* window) const;
+#endif
 
   // Returns a pix of the original sample image. The pix is padded all round
   // by padding wherever possible.

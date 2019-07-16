@@ -21,7 +21,14 @@
 #define QUSPLINE_H
 
 #include <cstdint>             // for int32_t
+
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+
+#ifndef GRAPHICS_DISABLED
 #include "scrollview.h"        // for ScrollView, ScrollView::Color
+#endif
 
 class ICOORD;
 class QUAD_COEFFS;

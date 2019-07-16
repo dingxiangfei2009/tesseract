@@ -23,11 +23,18 @@
 #ifndef TESSERACT_CLASSIFY_SHAPECLASSIFIER_H_
 #define TESSERACT_CLASSIFY_SHAPECLASSIFIER_H_
 
+// Include automatically generated configuration file if running autoconf.
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+
 #include "unichar.h"
 
 template <typename T> class GenericVector;
 struct Pix;
+#ifndef GRAPHICS_DISABLED
 class ScrollView;
+#endif
 class UNICHARSET;
 
 namespace tesseract {
@@ -97,6 +104,7 @@ class ShapeClassifier {
                             UNICHAR_ID unichar_id);
 
 
+#ifndef GRAPHICS_DISABLED
   // Displays classification as the given unichar_id. Creates as many windows
   // as it feels fit, using index as a guide for placement. Adds any created
   // windows to the windows output and returns a new index that may be used
@@ -105,6 +113,7 @@ class ShapeClassifier {
   virtual int DisplayClassifyAs(const TrainingSample& sample,  Pix* page_pix,
                                 UNICHAR_ID unichar_id, int index,
                                 PointerVector<ScrollView>* windows);
+#endif
 
   // Prints debug information on the results. context is some introductory/title
   // message.

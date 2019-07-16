@@ -25,7 +25,6 @@
 #include "elst.h"       // for ELIST_ITERATOR, ELISTIZEH, ELIST_LINK
 #include "quspline.h"   // for QSPLINE
 #include "rect.h"       // for TBOX
-#include "scrollview.h" // for ScrollView, ScrollView::Color
 #include "werd.h"       // for WERD_LIST
 
 class ICOORD;

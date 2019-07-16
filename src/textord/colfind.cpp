@@ -32,7 +32,9 @@
 #include "normalis.h"
 #include "strokewidth.h"
 #include "blobbox.h"
+#ifndef GRAPHICS_DISABLED
 #include "scrollview.h"
+#endif
 #include "tablefind.h"
 #include "params.h"
 #include "workingpartset.h"
@@ -63,7 +65,9 @@ static BOOL_VAR(textord_tabfind_show_columns, false, "Show column bounds");
 static BOOL_VAR(textord_tabfind_show_blocks, false, "Show final block bounds");
 static BOOL_VAR(textord_tabfind_find_tables, true, "run table detection");
 
+#ifndef GRAPHICS_DISABLED
 ScrollView* ColumnFinder::blocks_win_ = nullptr;
+#endif
 
 // Gridsize is an estimate of the text size in the image. A suitable value
 // is in TO_BLOCK::line_size after find_components has been used to make
@@ -89,7 +93,11 @@ ColumnFinder::ColumnFinder(int gridsize,
     best_columns_(nullptr), stroke_width_(nullptr),
     part_grid_(gridsize, bleft, tright), nontext_map_(nullptr),
     projection_(resolution),
-    denorm_(nullptr), input_blobs_win_(nullptr), equation_detect_(nullptr) {
+    denorm_(nullptr),
+#ifndef GRAPHICS_DISABLED
+    input_blobs_win_(nullptr),
+#endif
+    equation_detect_(nullptr) {
   TabVector_IT h_it(&horizontal_lines_);
   h_it.add_list_after(hlines);
 }
@@ -98,7 +106,9 @@ ColumnFinder::~ColumnFinder() {
   column_sets_.delete_data_pointers();
   delete [] best_columns_;
   delete stroke_width_;
+#ifndef GRAPHICS_DISABLED
   delete input_blobs_win_;
+#endif
   pixDestroy(&nontext_map_);
   while (denorm_ != nullptr) {
     DENORM* dead_denorm = denorm_;
@@ -402,11 +412,13 @@ int ColumnFinder::FindBlocks(PageSegMode pageseg_mode, Pix* scaled_color,
     part_grid_.GridFindMargins(best_columns_);
     SetPartitionTypes();
   }
+#ifndef GRAPHICS_DISABLED
   if (textord_tabfind_show_initial_partitions) {
     ScrollView* part_win = MakeWindow(100, 300, "InitialPartitions");
     part_grid_.DisplayBoxes(part_win);
     DisplayTabVectors(part_win);
   }
+#endif
 
   if (!PSM_SPARSE(pageseg_mode)) {
     if (equation_detect_) {

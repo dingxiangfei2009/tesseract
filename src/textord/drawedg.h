@@ -20,6 +20,12 @@
 
 #ifndef           DRAWEDG_H
 #define           DRAWEDG_H
+
+// Include automatically generated configuration file if running autoconf.
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+
 #ifndef GRAPHICS_DISABLED
 
 #include          "scrollview.h"

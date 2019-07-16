@@ -19,8 +19,15 @@
 #ifndef           SCANEDG_H
 #define           SCANEDG_H
 
+// Include automatically generated configuration file if running autoconf.
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+
 #include          "params.h"
+#ifndef GRAPHICS_DISABLED
 #include          "scrollview.h"
+#endif
 #include          "pdblock.h"
 #include          "crakedge.h"
 

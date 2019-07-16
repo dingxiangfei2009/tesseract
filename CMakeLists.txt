@@ -70,10 +70,11 @@ message( "Configuring tesseract version ${PACKAGE_VERSION}...")
 
 option(CPPAN_BUILD "Build with cppan" ON)
 option(OPENMP_BUILD "Build with openmp support" OFF)  # see issue #1662
-option(GRAPHICS_DISABLED "Disable disable graphics (ScrollView)" OFF)
+option(GRAPHICS_DISABLED "Disable graphics (ScrollView)" OFF)
 option(DISABLED_LEGACY_ENGINE "Disable the legacy OCR engine" OFF)
 option(BUILD_TRAINING_TOOLS "Build training tools" ON)
 option(BUILD_TESTS "Build tests" OFF)
+option(BUILD_EXEC "Build tesseract executable" ON)
 
 if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/.cppan)
     set(CPPAN_BUILD OFF)
@@ -174,6 +175,13 @@ find_package(OpenCL QUIET)
 find_package(LibArchive)
 if(LibArchive_FOUND)
     set(HAVE_LIBARCHIVE ON)
+endif()
+
+find_package(Threads)
+if(Threads_FOUND)
+    set(HAVE_THREADS ON)
+else()
+    set(GRAPHICS_DISABLED ON)
 endif()
 
 
@@ -299,7 +307,10 @@ include_directories(src/dict)
 include_directories(src/lstm)
 include_directories(src/opencl)
 include_directories(src/textord)
-include_directories(src/viewer)
+if(Threads_FOUND)
+  set(HAVE_SCROLLVIEWER ON)
+  include_directories(src/viewer)
+endif()
 include_directories(src/wordrec)
 if(CMAKE_EXPORT_COMPILE_COMMANDS)
   include_directories(src/training)
@@ -326,9 +337,15 @@ file(GLOB tesseract_src
     src/lstm/*.cpp
     src/opencl/*.cpp
     src/textord/*.cpp
-    src/viewer/*.cpp
     src/wordrec/*.cpp
 )
+
+if(HAVE_SCROLLVIEWER)
+  file(GLOB scrollviewer
+      src/viewer/*.cpp
+  )
+  list(APPEND ${scrollviewer})
+endif()
 
 if(AVX_OPT)
    list(APPEND tesseract_src src/arch/dotproductavx.cpp)
@@ -428,15 +445,17 @@ if (MSVC)
     set(tesseractmain_rsc ${CMAKE_CURRENT_BINARY_DIR}/vs2010/tesseract/tesseract.rc)
 endif()
 
-add_executable                  (tesseract ${tesseractmain_src} ${tesseractmain_rsc})
-target_link_libraries           (tesseract libtesseract)
-if (HAVE_TIFFIO_H)
+if (BUILD_EXEC)
+  add_executable                (tesseract ${tesseractmain_src} ${tesseractmain_rsc})
+  target_link_libraries         (tesseract libtesseract)
+  if (HAVE_TIFFIO_H)
     target_link_libraries(tesseract tiff)
+  endif()
+  if (OPENMP_BUILD AND UNIX)
+    target_link_libraries           (tesseract pthread)
+  endif()
 endif()
 
-if (OPENMP_BUILD AND UNIX)
-target_link_libraries           (tesseract pthread)
-endif()
 
 ########################################
 
@@ -453,7 +472,9 @@ get_target_property(tesseract_VERSION libtesseract VERSION)
 get_target_property(tesseract_OUTPUT_NAME libtesseract OUTPUT_NAME)
 configure_file(tesseract.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/tesseract.pc @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tesseract.pc DESTINATION lib/pkgconfig)
-install(TARGETS tesseract RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+if (BUILD_EXEC)
+  install(TARGETS tesseract RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+endif()
 install(TARGETS libtesseract EXPORT TesseractTargets RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 install(EXPORT TesseractTargets DESTINATION cmake)
 install(FILES

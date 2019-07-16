@@ -25,7 +25,9 @@
 #include <cstdarg>      // for va_end, va_list, va_start
 #include <cstdio>       // for vsprintf
 #include <memory>       // for unique_ptr
+#ifndef GRAPHICS_DISABLED
 #include "scrollview.h" // for ScrollView, SVEvent, SVET_ANY, SVET_INPUT
+#endif
 #include "tprintf.h"    // for tprintf
 
 void

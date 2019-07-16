@@ -46,7 +46,9 @@
 #include "quadratc.h"           // for QUAD_COEFFS
 #include "quspline.h"           // for QSPLINE, tweak_row_baseline
 #include "rect.h"               // for TBOX
+#ifndef GRAPHICS_DISABLED
 #include "scrollview.h"         // for ScrollView, ScrollView::WHITE
+#endif
 #include "statistc.h"           // for STATS
 #include "stepblob.h"           // for C_BLOB_IT, C_BLOB, C_BLOB_LIST
 #include "textord.h"            // for Textord, WordWithBox, WordGrid, WordS...

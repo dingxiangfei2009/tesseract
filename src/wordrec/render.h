@@ -23,7 +23,9 @@
 #include "callcpp.h"  // for C_COL
 #include "params.h"   // for BOOL_VAR_H, BoolParam
 
+#ifndef GRAPHICS_DISABLED
 class ScrollView;
+#endif
 
 struct EDGEPT;
 struct TBLOB;
@@ -32,7 +34,9 @@ struct TESSLINE;
 /*----------------------------------------------------------------------
               V a r i a b l e s
 ----------------------------------------------------------------------*/
+#ifndef GRAPHICS_DISABLED
 extern ScrollView *blob_window;        /* Window for blobs */
+#endif
 extern C_COL color_list[];       /* Colors for outlines */
 
 extern BOOL_VAR_H(wordrec_display_all_blobs, 0, "Display Blobs");

@@ -340,9 +340,11 @@ class LSTMTrainer : public LSTMRecognizer {
                          const NetworkIO& fwd_outputs,
                          const GenericVector<int>& truth_labels,
                          const NetworkIO& outputs);
+#ifndef GRAPHICS_DISABLED
   // Displays the network targets as line a line graph.
   void DisplayTargets(const NetworkIO& targets, const char* window_name,
                       ScrollView** window);
+#endif
 
   // Builds a no-compromises target where the first positions should be the
   // truth labels and the rest is padded with the null_char_.
@@ -393,6 +395,7 @@ class LSTMTrainer : public LSTMRecognizer {
                           TestCallback tester);
 
  protected:
+#ifndef GRAPHICS_DISABLED
   // Alignment display window.
   ScrollView* align_win_;
   // CTC target display window.
@@ -401,6 +404,7 @@ class LSTMTrainer : public LSTMRecognizer {
   ScrollView* ctc_win_;
   // Reconstructed image window.
   ScrollView* recon_win_;
+#endif
   // How often to display a debug image.
   int debug_interval_;
   // Iteration at which the last checkpoint was dumped.

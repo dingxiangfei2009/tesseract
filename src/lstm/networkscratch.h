@@ -19,10 +19,17 @@
 #ifndef TESSERACT_LSTM_NETWORKSCRATCH_H_
 #define TESSERACT_LSTM_NETWORKSCRATCH_H_
 
+// Include automatically generated configuration file if running autoconf.
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+
 #include "genericvector.h"
 #include "matrix.h"
 #include "networkio.h"
+#ifndef GRAPHICS_DISABLED
 #include "svutil.h"
+#endif
 
 namespace tesseract {
 
@@ -210,7 +217,9 @@ class NetworkScratch {
     // Lends out the next free item, creating one if none available, sets
     // the used flags and increments the stack top.
     T* Borrow() {
+#ifndef GRAPHICS_DISABLED
       SVAutoLock lock(&mutex_);
+#endif
       if (stack_top_ == stack_.size()) {
         stack_.push_back(new T);
         flags_.push_back(false);
@@ -224,7 +233,9 @@ class NetworkScratch {
     // small, temporary variations from true stack use. (Determined by the order
     // of destructors within a local scope.)
     void Return(T* item) {
+#ifndef GRAPHICS_DISABLED
       SVAutoLock lock(&mutex_);
+#endif
       // Linear search will do.
       int index = stack_top_ - 1;
       while (index >= 0 && stack_[index] != item) --index;
@@ -236,7 +247,9 @@ class NetworkScratch {
     PointerVector<T> stack_;
     GenericVector<bool> flags_;
     int stack_top_;
+#ifndef GRAPHICS_DISABLED
     SVMutex mutex_;
+#endif
   };  // class Stack.
 
  private:

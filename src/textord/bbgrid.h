@@ -26,7 +26,6 @@
 #include "clst.h"
 #include "coutln.h"
 #include "rect.h"
-#include "scrollview.h"
 
 #include "allheaders.h"
 
@@ -204,6 +203,7 @@ template<class BBC, class BBC_CLIST, class BBC_C_IT> class BBGrid
   // Returned IntGrid must be deleted after use.
   IntGrid* CountCellElements();
 
+#ifndef GRAPHICS_DISABLED
   // Make a window of an appropriate size to display things in the grid.
   ScrollView* MakeWindow(int x, int y, const char* window_name);
 
@@ -211,6 +211,7 @@ template<class BBC, class BBC_CLIST, class BBC_C_IT> class BBGrid
   // Use of this function requires an additional member of the BBC class:
   // ScrollView::Color BBC::BoxColor() const.
   void DisplayBoxes(ScrollView* window);
+#endif
 
   // ASSERT_HOST that every cell contains no more than one copy of each entry.
   void AssertNoDuplicates();
@@ -572,6 +573,7 @@ IntGrid* BBGrid<BBC, BBC_CLIST, BBC_C_IT>::CountCellElements() {
 }
 
 
+#ifndef GRAPHICS_DISABLED
 template<class G> class TabEventHandler : public SVEventHandler {
  public:
   explicit TabEventHandler(G* grid) : grid_(grid) {
@@ -591,7 +593,6 @@ template<class BBC, class BBC_CLIST, class BBC_C_IT>
 ScrollView* BBGrid<BBC, BBC_CLIST, BBC_C_IT>::MakeWindow(
     int x, int y, const char* window_name) {
   ScrollView* tab_win = nullptr;
-#ifndef GRAPHICS_DISABLED
   tab_win = new ScrollView(window_name, x, y,
                            tright_.x() - bleft_.x(),
                            tright_.y() - bleft_.y(),
@@ -603,7 +604,6 @@ ScrollView* BBGrid<BBC, BBC_CLIST, BBC_C_IT>::MakeWindow(
   tab_win->AddEventHandler(handler);
   tab_win->Pen(ScrollView::GREY);
   tab_win->Rectangle(0, 0, tright_.x() - bleft_.x(), tright_.y() - bleft_.y());
-#endif
   return tab_win;
 }
 
@@ -613,7 +613,6 @@ ScrollView* BBGrid<BBC, BBC_CLIST, BBC_C_IT>::MakeWindow(
 // ScrollView::Color BBC::BoxColor() const.
 template<class BBC, class BBC_CLIST, class BBC_C_IT>
 void BBGrid<BBC, BBC_CLIST, BBC_C_IT>::DisplayBoxes(ScrollView* tab_win) {
-#ifndef GRAPHICS_DISABLED
   tab_win->Pen(ScrollView::BLUE);
   tab_win->Brush(ScrollView::NONE);
 
@@ -632,8 +631,8 @@ void BBGrid<BBC, BBC_CLIST, BBC_C_IT>::DisplayBoxes(ScrollView* tab_win) {
     tab_win->Rectangle(left_x, bottom_y, right_x, top_y);
   }
   tab_win->Update();
-#endif
 }
+#endif
 
 // ASSERT_HOST that every cell contains no more than one copy of each entry.
 template<class BBC, class BBC_CLIST, class BBC_C_IT>

@@ -18,6 +18,10 @@
 #ifndef TESSERACT_LSTM_NETWORK_H_
 #define TESSERACT_LSTM_NETWORK_H_
 
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+
 #include <cstdio>
 #include <cmath>
 
@@ -30,7 +34,9 @@
 #include "tprintf.h"
 
 struct Pix;
+#ifndef GRAPHICS_DISABLED
 class ScrollView;
+#endif
 class TBOX;
 
 namespace tesseract {
@@ -276,6 +282,7 @@ class Network {
   // Displays the image of the matrix to the backward window.
   void DisplayBackward(const NetworkIO& matrix);
 
+#ifndef GRAPHICS_DISABLED
   // Creates the window if needed, otherwise clears it.
   static void ClearWindow(bool tess_coords, const char* window_name,
                           int width, int height, ScrollView** window);
@@ -283,6 +290,7 @@ class Network {
   // Displays the pix in the given window. and returns the height of the pix.
   // The pix is pixDestroyed.
   static int DisplayImage(Pix* pix, ScrollView* window);
+#endif
 
  protected:
   // Returns a random number in [-range, range].
@@ -299,8 +307,10 @@ class Network {
   STRING name_;               // A unique name for this layer.
 
   // NOT-serialized debug data.
+#ifndef GRAPHICS_DISABLED
   ScrollView* forward_win_;   // Recognition debug display window.
   ScrollView* backward_win_;  // Training debug display window.
+#endif
   TRand* randomizer_;         // Random number generator.
 };
 

@@ -115,10 +115,12 @@ LSTMTrainer::LSTMTrainer(FileReader file_reader, FileWriter file_writer,
 }
 
 LSTMTrainer::~LSTMTrainer() {
+#ifndef GRAPHICS_DISABLED
   delete align_win_;
   delete target_win_;
   delete ctc_win_;
   delete recon_win_;
+#endif
   delete checkpoint_reader_;
   delete checkpoint_writer_;
   delete sub_trainer_;
@@ -1012,10 +1014,12 @@ void LSTMTrainer::SetNullChar() {
 
 // Factored sub-constructor sets up reasonable default values.
 void LSTMTrainer::EmptyConstructor() {
+#ifndef GRAPHICS_DISABLED
   align_win_ = nullptr;
   target_win_ = nullptr;
   ctc_win_ = nullptr;
   recon_win_ = nullptr;
+#endif
   checkpoint_iteration_ = 0;
   training_stage_ = 0;
   num_training_stages_ = 2;
@@ -1052,20 +1056,22 @@ bool LSTMTrainer::DebugLSTMTraining(const NetworkIO& inputs,
       tprintf("TRAINING activation path for truth string %s\n",
               truth_text.string());
       DebugActivationPath(outputs, labels, xcoords);
+#ifndef GRAPHICS_DISABLED
       DisplayForward(inputs, labels, xcoords, "LSTMTraining", &align_win_);
       if (OutputLossType() == LT_CTC) {
         DisplayTargets(fwd_outputs, "CTC Outputs", &ctc_win_);
         DisplayTargets(outputs, "CTC Targets", &target_win_);
       }
+#endif
     }
   }
   return true;
 }
 
+#ifndef GRAPHICS_DISABLED  // do nothing if there's no graphics.
 // Displays the network targets as line a line graph.
 void LSTMTrainer::DisplayTargets(const NetworkIO& targets,
                                  const char* window_name, ScrollView** window) {
-#ifndef GRAPHICS_DISABLED  // do nothing if there's no graphics.
   int width = targets.Width();
   int num_features = targets.NumFeatures();
   Network::ClearWindow(true, window_name, width * kTargetXScale, kTargetYScale,
@@ -1095,8 +1101,8 @@ void LSTMTrainer::DisplayTargets(const NetworkIO& targets,
     }
   }
   (*window)->Update();
-#endif  // GRAPHICS_DISABLED
 }
+#endif  // GRAPHICS_DISABLED
 
 // Builds a no-compromises target where the first positions should be the
 // truth labels and the rest is padded with the null_char_.

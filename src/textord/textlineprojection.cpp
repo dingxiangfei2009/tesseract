@@ -80,10 +80,10 @@ void TextlineProjection::ConstructProjection(TO_BLOCK* input_block,
   pix_ = final_pix;
 }
 
+#ifndef GRAPHICS_DISABLED
 // Display the blobs in the window colored according to textline quality.
 void TextlineProjection::PlotGradedBlobs(BLOBNBOX_LIST* blobs,
                                          ScrollView* win) {
-#ifndef GRAPHICS_DISABLED
   BLOBNBOX_IT it(blobs);
   for (it.mark_cycle_pt(); !it.cycled_list(); it.forward()) {
     BLOBNBOX* blob = it.data();
@@ -96,8 +96,8 @@ void TextlineProjection::PlotGradedBlobs(BLOBNBOX_LIST* blobs,
     win->Rectangle(box.left(), box.bottom(), box.right(), box.top());
   }
   win->Update();
-#endif  // GRAPHICS_DISABLED
 }
+#endif  // GRAPHICS_DISABLED
 
 // Moves blobs that look like they don't sit well on a textline from the
 // input blobs list to the output small_blobs list.

@@ -32,7 +32,9 @@ class BLOCK_LIST;
 class PAGE_RES;
 class TO_BLOCK;
 class TO_BLOCK_LIST;
+#ifndef GRAPHICS_DISABLED
 class ScrollView;
+#endif
 
 namespace tesseract {
 
@@ -126,8 +128,11 @@ class Textord {
                 int width, int height, TO_BLOCK_LIST* to_blocks);
   // Make the textlines inside a single block.
   void MakeBlockRows(int min_spacing, int max_spacing,
-                     const FCOORD& skew, TO_BLOCK* block,
-                     ScrollView* win);
+                     const FCOORD& skew, TO_BLOCK* block
+#ifndef GRAPHICS_DISABLED
+                     ,ScrollView* win
+#endif
+                     );
 
  public:
   void compute_block_xheight(TO_BLOCK *block, float gradient);

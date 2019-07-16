@@ -34,7 +34,9 @@
 class BLOB_CHOICE_IT;
 struct Pix;
 class ROW_RES;
+#ifndef GRAPHICS_DISABLED
 class ScrollView;
+#endif
 class TBOX;
 class WERD_RES;
 
@@ -197,11 +199,13 @@ class LSTMRecognizer {
   // augmented with character boundaries.
   STRING DecodeLabels(const GenericVector<int>& labels);
 
+#ifndef GRAPHICS_DISABLED
   // Displays the forward results in a window with the characters and
   // boundaries as determined by the labels and label_coords.
   void DisplayForward(const NetworkIO& inputs, const GenericVector<int>& labels,
                       const GenericVector<int>& label_coords,
                       const char* window_name, ScrollView** window);
+#endif
   // Converts the network output to a sequence of labels. Outputs labels, scores
   // and start xcoords of each char, and each null_char_, with an additional
   // final xcoord for the end of the output.
@@ -217,11 +221,13 @@ class LSTMRecognizer {
     randomizer_.IntRand();
   }
 
+#ifndef GRAPHICS_DISABLED
   // Displays the labels and cuts at the corresponding xcoords.
   // Size of labels should match xcoords.
   void DisplayLSTMOutput(const GenericVector<int>& labels,
                          const GenericVector<int>& xcoords, int height,
                          ScrollView* window);
+#endif
 
   // Prints debug output detailing the activation path that is implied by the
   // xcoords.
@@ -292,7 +298,9 @@ class LSTMRecognizer {
 
   // == Debugging parameters.==
   // Recognition debug display window.
+#ifndef GRAPHICS_DISABLED
   ScrollView* debug_win_;
+#endif
 };
 
 }  // namespace tesseract.

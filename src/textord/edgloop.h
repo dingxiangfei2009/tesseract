@@ -19,7 +19,6 @@
 #ifndef           EDGLOOP_H
 #define           EDGLOOP_H
 
-#include          "scrollview.h"
 #include          "params.h"
 #include          "pdblock.h"
 #include          "coutln.h"
@@ -27,11 +26,20 @@
 
 #define BUCKETSIZE      16
 
+enum OutlineVariant {
+                  BlackInside,
+                  WhiteInside,
+                  TooShort,
+                  TooLong,
+                  Invalid,
+};
+
 void complete_edge(CRACKEDGE *start,  //start of loop
                    C_OUTLINE_IT* outline_it);
-ScrollView::Color check_path_legal(                  //certify outline
-                        CRACKEDGE *start  //start of loop
-                       );
+//certify outline
+OutlineVariant check_path_legal(
+                                CRACKEDGE *start  //start of loop
+                               );
 int16_t loop_bounding_box(                    //get bounding box
                         CRACKEDGE *&start,  //edge loop
                         ICOORD &botleft,    //bounding box

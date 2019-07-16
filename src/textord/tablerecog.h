@@ -133,9 +133,11 @@ class StructuredTable {
   // Finds the filled area in a cell.
   double CalculateCellFilledPercentage(int row, int column);
 
+#ifndef GRAPHICS_DISABLED
   // Debug display, draws the table in the given color. If the table is not
   // valid, the table and "best" grid lines are still drawn in the given color.
   void Display(ScrollView* window, ScrollView::Color color);
+#endif
 
  protected:
   // Clear the structure information.

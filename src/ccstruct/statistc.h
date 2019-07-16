@@ -20,8 +20,16 @@
 #define TESSERACT_CCSTRUCT_STATISTC_H_
 
 #include <cstdio>
+
+// Include automatically generated configuration file if running autoconf.
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+
 #include "kdpair.h"
+#ifndef GRAPHICS_DISABLED
 #include "scrollview.h"
+#endif
 
 template <typename T> class GenericVector;
 

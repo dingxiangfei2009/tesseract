@@ -31,8 +31,6 @@
 #include "paramsd.h"
 #include "pageres.h"
 #include "tordmain.h"
-#include "scrollview.h"
-#include "svmnode.h"
 #include "statistc.h"
 #include "tesseractclass.h"
 #include "werdit.h"

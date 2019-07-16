@@ -20,7 +20,9 @@
 
 #include "network.h"
 
+#ifndef GRAPHICS_DISABLED
 class ScrollView;
+#endif
 
 namespace tesseract {
 

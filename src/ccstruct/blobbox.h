@@ -31,7 +31,6 @@
 #include "points.h"            // for FCOORD, ICOORD, ICOORDELT_LIST
 #include "quspline.h"          // for QSPLINE
 #include "rect.h"              // for TBOX
-#include "scrollview.h"        // for ScrollView, ScrollView::Color
 #include "statistc.h"          // for STATS
 #include "stepblob.h"          // for C_BLOB
 #include "tprintf.h"           // for tprintf

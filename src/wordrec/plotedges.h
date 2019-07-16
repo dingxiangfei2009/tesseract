@@ -23,7 +23,9 @@
 
 #include "oldlist.h"  // for LIST
 
+#ifndef GRAPHICS_DISABLED
 class ScrollView;
+#endif
 
 struct EDGEPT;
 struct TBLOB;
@@ -31,7 +33,9 @@ struct TBLOB;
 /*----------------------------------------------------------------------
               V a r i a b l e s
 ----------------------------------------------------------------------*/
+#ifndef GRAPHICS_DISABLED
 extern ScrollView *edge_window;        /* Window for edges */
+#endif
 
 /*----------------------------------------------------------------------
             Macros

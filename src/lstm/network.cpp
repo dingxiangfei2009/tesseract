@@ -35,7 +35,9 @@
 #include "parallel.h"
 #include "reconfig.h"
 #include "reversed.h"
+#ifndef GRAPHICS_DISABLED
 #include "scrollview.h"
+#endif
 #include "series.h"
 #include "statistc.h"
 #ifdef INCLUDE_TENSORFLOW
@@ -81,8 +83,10 @@ Network::Network()
       ni_(0),
       no_(0),
       num_weights_(0),
+#ifndef GRAPHICS_DISABLED
       forward_win_(nullptr),
       backward_win_(nullptr),
+#endif
       randomizer_(nullptr) {}
 Network::Network(NetworkType type, const STRING& name, int ni, int no)
     : type_(type),
@@ -93,8 +97,10 @@ Network::Network(NetworkType type, const STRING& name, int ni, int no)
       no_(no),
       num_weights_(0),
       name_(name),
+#ifndef GRAPHICS_DISABLED
       forward_win_(nullptr),
       backward_win_(nullptr),
+#endif
       randomizer_(nullptr) {}
 
 

@@ -19,8 +19,15 @@
 #ifndef           DRAWTORD_H
 #define           DRAWTORD_H
 
+// Include automatically generated configuration file if running autoconf.
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+
 #include          "params.h"
+#ifndef GRAPHICS_DISABLED
 #include          "scrollview.h"
+#endif
 #include          "pitsync1.h"
 #include          "blobbox.h"
 
@@ -30,8 +37,9 @@ extern BOOL_VAR_H (textord_show_fixed_cuts, false,
 "Draw fixed pitch cell boundaries");
 extern STRING_VAR_H (to_debugfile, DEBUG_WIN_NAME, "Name of debugfile");
 extern STRING_VAR_H (to_smdfile, NO_SMD, "Name of SMD file");
-extern ScrollView* to_win;
 extern FILE *to_debug;
+#ifndef GRAPHICS_DISABLED
+extern ScrollView* to_win;
 // Creates a static display window for textord, and returns a pointer to it.
 ScrollView* create_to_win(ICOORD page_tr);
 void close_to_win();  // Destroy the textord window.
@@ -95,4 +103,5 @@ void plot_row_cells(                       //draw words
                     float xshift,          //amount of shift
                     ICOORDELT_LIST *cells  //cells to draw
                    );
+#endif
 #endif

@@ -60,6 +60,7 @@ const UNICHARSET& TessClassifier::GetUnicharset() const {
   return classify_->unicharset;
 }
 
+#ifndef GRAPHICS_DISABLED
 // Displays classification as the given shape_id. Creates as many windows
 // as it feels fit, using index as a guide for placement. Adds any created
 // windows to the windows output and returns a new index that may be used
@@ -81,5 +82,6 @@ int TessClassifier::DisplayClassifyAs(
                               sample.num_features());
   return index;
 }
+#endif
 
 }  // namespace tesseract

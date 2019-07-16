@@ -21,13 +21,21 @@
 #define COUTLN_H
 
 #include <cstdint>      // for int16_t, int32_t
+
+// Include automatically generated configuration file if running autoconf.
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+
 #include "bits16.h"     // for BITS16
 #include "elst.h"       // for ELIST_ITERATOR, ELISTIZEH, ELIST_LINK
 #include "mod128.h"     // for DIR128, DIRBITS
 #include "platform.h"   // for DLLSYM
 #include "points.h"     // for ICOORD, FCOORD
 #include "rect.h"       // for TBOX
+#ifndef GRAPHICS_DISABLED
 #include "scrollview.h" // for ScrollView, ScrollView::Color
+#endif
 
 class CRACKEDGE;
 class DENORM;

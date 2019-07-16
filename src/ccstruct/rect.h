@@ -24,9 +24,17 @@
 #include <cmath>               // for std::ceil, std::floor
 #include <cstdint>             // for INT16_MAX
 #include <cstdio>              // for FILE
+
+// Include automatically generated configuration file if running autoconf.
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+
 #include "platform.h"          // for DLLSYM
 #include "points.h"            // for ICOORD, FCOORD
+#ifndef GRAPHICS_DISABLED
 #include "scrollview.h"        // for ScrollView, ScrollView::Color
+#endif
 #include "tprintf.h"           // for tprintf
 
 class STRING;

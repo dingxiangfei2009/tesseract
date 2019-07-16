@@ -22,7 +22,6 @@
 #include "elst.h"
 #include "points.h"
 #include "rect.h"
-#include "scrollview.h"
 
 class DLLSYM POLY_BLOCK {
  public:
@@ -58,11 +57,11 @@ class DLLSYM POLY_BLOCK {
   // Move by adding shift to all coordinates.
   void move(ICOORD shift);
 
+#ifndef GRAPHICS_DISABLED
   void plot(ScrollView* window, int32_t num);
 
-  #ifndef GRAPHICS_DISABLED
   void fill(ScrollView* window, ScrollView::Color colour);
-  #endif  // GRAPHICS_DISABLED
+#endif  // GRAPHICS_DISABLED
 
   // Returns true if other is inside this.
   bool contains(POLY_BLOCK *other);

@@ -58,7 +58,6 @@
 #include "protos.h"             // for PROTO_STRUCT, FillABC, PROTO
 #include "ratngs.h"             // for BLOB_CHOICE_IT, BLOB_CHOICE_LIST, BLO...
 #include "rect.h"               // for TBOX
-#include "scrollview.h"         // for ScrollView, ScrollView::BROWN, Scroll...
 #include "seam.h"               // for SEAM
 #include "serialis.h"           // for TFile
 #include "shapeclassifier.h"    // for ShapeClassifier
@@ -221,11 +220,11 @@ void Classify::AdaptiveClassifier(TBLOB *Blob, BLOB_CHOICE_LIST *Choices) {
   delete Results;
 }                                /* AdaptiveClassifier */
 
+#ifndef GRAPHICS_DISABLED
 // If *win is nullptr, sets it to a new ScrollView() object with title msg.
 // Clears the window and draws baselines.
 void Classify::RefreshDebugWindow(ScrollView **win, const char *msg,
                                   int y_offset, const TBOX &wbox) {
-  #ifndef GRAPHICS_DISABLED
   const int kSampleSpaceWidth = 500;
   if (*win == nullptr) {
     *win = new ScrollView(msg, 100, y_offset, kSampleSpaceWidth * 2, 200,
@@ -239,8 +238,8 @@ void Classify::RefreshDebugWindow(ScrollView **win, const char *msg,
                kSampleSpaceWidth, kBlnXHeight + kBlnBaselineOffset);
   (*win)->ZoomToRectangle(wbox.left(), wbox.top(),
                           wbox.right(), wbox.bottom());
-  #endif  // GRAPHICS_DISABLED
 }
+#endif  // GRAPHICS_DISABLED
 
 // Learns the given word using its chopped_word, seam_array, denorm,
 // box_word, best_state, and correct_text to learn both correctly and

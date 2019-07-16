@@ -19,7 +19,7 @@
 #ifndef TESSERACT_CCUTIL_CCUTIL_H_
 #define TESSERACT_CCUTIL_CCUTIL_H_
 
-#ifndef _WIN32
+#if !defined _WIN32 && defined HAVE_THREADS
 #include <pthread.h>
 #include <semaphore.h>
 #endif
@@ -45,7 +45,7 @@ class CCUtilMutex {
  private:
 #ifdef _WIN32
   HANDLE mutex_;
-#else
+#elif defined HAVE_THREADS
   pthread_mutex_t mutex_;
 #endif
 };

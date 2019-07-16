@@ -32,7 +32,6 @@
 #include "points.h"            // for FCOORD, ICOORD
 #include "publictypes.h"       // for OcrEngineMode
 #include "rect.h"              // for TBOX
-#include "scrollview.h"        // for ScrollView, ScrollView::Color
 #include "vecfuncs.h"          // for CROSS
 
 class BLOCK;
@@ -433,7 +432,9 @@ struct TWERD {
   // the blobs between start and end.
   void MergeBlobs(int start, int end);
 
+#ifndef GRAPHICS_DISABLED
   void plot(ScrollView* window);
+#endif
 
   GenericVector<TBLOB*> blobs;   // Blobs in word.
   bool latin_script;             // This word is in a latin-based script.

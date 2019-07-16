@@ -29,7 +29,9 @@
 #include "params.h"  // for BOOL_VAR_H, BoolParam
 #include "rect.h"    // for TBOX
 
+#ifndef GRAPHICS_DISABLED
 class ScrollView;
+#endif
 
 /*----------------------------------------------------------------------
               T y p e s

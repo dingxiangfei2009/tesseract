@@ -35,11 +35,14 @@
 #include "picofeat.h"
 #include "points.h"
 #include "shapetable.h"
-#include "svmnode.h"
 
 // Include automatically generated configuration file if running autoconf.
 #ifdef HAVE_CONFIG_H
 #include "config_auto.h"
+#endif
+
+#ifndef GRAPHICS_DISABLED
+#include "svmnode.h"
 #endif
 
 using tesseract::FontSet;
@@ -145,7 +148,9 @@ void GetCPPadsForLevel(int Level,
                        float *SidePad,
                        float *AnglePad);
 
+#ifndef GRAPHICS_DISABLED
 ScrollView::Color GetMatchColorFor(float Evidence);
+#endif
 
 void GetNextFill(TABLE_FILLER *Filler, FILL_SPEC *Fill);
 
@@ -172,9 +177,11 @@ int TruncateParam(float Param, int Min, int Max, char *Id);
 -----------------------------------------------------------------------------*/
 
 /* global display lists used to display proto and feature match information*/
+#ifndef GRAPHICS_DISABLED
 static ScrollView* IntMatchWindow = nullptr;
 static ScrollView* FeatureDisplayWindow = nullptr;
 static ScrollView* ProtoDisplayWindow = nullptr;
+#endif
 
 /*-----------------------------------------------------------------------------
         Variables
@@ -1362,6 +1369,7 @@ void GetCPPadsForLevel(int Level,
 
 }                                /* GetCPPadsForLevel */
 
+#ifndef GRAPHICS_DISABLED
 /**
  * @param Evidence  evidence value to return color for
  * @return Color which corresponds to specified Evidence value.
@@ -1380,6 +1388,7 @@ ScrollView::Color GetMatchColorFor(float Evidence) {
   else
     return ScrollView::BLUE;
 }                                /* GetMatchColorFor */
+#endif
 
 /**
  * This routine returns (in Fill) the specification of

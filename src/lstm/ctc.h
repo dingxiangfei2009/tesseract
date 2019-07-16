@@ -19,10 +19,14 @@
 #ifndef TESSERACT_LSTM_CTC_H_
 #define TESSERACT_LSTM_CTC_H_
 
+// Include automatically generated configuration file if running autoconf.
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+
 #include "genericvector.h"
 #include "network.h"
 #include "networkio.h"
-#include "scrollview.h"
 
 namespace tesseract {
 

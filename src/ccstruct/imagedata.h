@@ -20,12 +20,19 @@
 #ifndef TESSERACT_IMAGE_IMAGEDATA_H_
 #define TESSERACT_IMAGE_IMAGEDATA_H_
 
+// Include automatically generated configuration file if running autoconf.
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+
 #include "genericvector.h"      // for GenericVector, PointerVector, FileReader
 #include "points.h"             // for FCOORD
 #include "strngs.h"             // for STRING
+#ifndef GRAPHICS_DISABLED
 #include "svutil.h"             // for SVAutoLock, SVMutex
-
 class ScrollView;
+#endif
+
 class TBOX;
 struct Pix;
 
@@ -62,9 +69,11 @@ class WordFeature {
   // Computes the maximum x and y value in the features.
   static void ComputeSize(const GenericVector<WordFeature>& features,
                           int* max_x, int* max_y);
+  #ifndef GRAPHICS_DISABLED
   // Draws the features in the given window.
   static void Draw(const GenericVector<WordFeature>& features,
                    ScrollView* window);
+  #endif
 
   // Accessors.
   int x() const { return x_; }
@@ -227,15 +236,21 @@ class DocumentData {
   void AddPageToDocument(ImageData* page);
 
   const STRING& document_name() const {
+#ifndef GRAPHICS_DISABLED
     SVAutoLock lock(&general_mutex_);
+#endif
     return document_name_;
   }
   int NumPages() const {
+#ifndef GRAPHICS_DISABLED
     SVAutoLock lock(&general_mutex_);
+#endif
     return total_pages_;
   }
   int64_t memory_used() const {
+#ifndef GRAPHICS_DISABLED
     SVAutoLock lock(&general_mutex_);
+#endif
     return memory_used_;
   }
   // If the given index is not currently loaded, loads it using a separate
@@ -259,7 +274,9 @@ class DocumentData {
   bool IsPageAvailable(int index, ImageData** page);
   // Takes ownership of the given page index. The page is made nullptr in *this.
   ImageData* TakePage(int index) {
+#ifndef GRAPHICS_DISABLED
     SVAutoLock lock(&pages_mutex_);
+#endif
     ImageData* page = pages_[index];
     pages_[index] = nullptr;
     return page;
@@ -276,11 +293,15 @@ class DocumentData {
  private:
   // Sets the value of total_pages_ behind a mutex.
   void set_total_pages(int total) {
+#ifndef GRAPHICS_DISABLED
     SVAutoLock lock(&general_mutex_);
+#endif
     total_pages_ = total;
   }
   void set_memory_used(int64_t memory_used) {
+#ifndef GRAPHICS_DISABLED
     SVAutoLock lock(&general_mutex_);
+#endif
     memory_used_ = memory_used;
   }
   // Locks the pages_mutex_ and Loads as many pages can fit in max_memory_
@@ -304,10 +325,14 @@ class DocumentData {
   FileReader reader_;
   // Mutex that protects pages_ and pages_offset_ against multiple parallel
   // loads, and provides a wait for page.
+#ifndef GRAPHICS_DISABLED
   SVMutex pages_mutex_;
+#endif
   // Mutex that protects other data members that callers want to access without
   // waiting for a load operation.
+#ifndef GRAPHICS_DISABLED
   mutable SVMutex general_mutex_;
+#endif
 };
 
 // A collection of DocumentData that knows roughly how much memory it is using.

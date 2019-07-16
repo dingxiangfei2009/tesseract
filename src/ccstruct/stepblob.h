@@ -25,7 +25,6 @@
 #include "elst.h"              // for ELIST_ITERATOR, ELISTIZEH, ELIST_LINK
 #include "points.h"            // for FCOORD, ICOORD (ptr only)
 #include "rect.h"              // for TBOX
-#include "scrollview.h"        // for ScrollView, ScrollView::Color
 
 class C_BLOB;
 class DENORM;

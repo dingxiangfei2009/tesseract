@@ -20,7 +20,10 @@
 #define PGEDIT_H
 
 #include "params.h"      // for INT_VAR_H, IntParam, STRING_VAR_H, StringParam
+#ifndef GRAPHICS_DISABLED
 #include "scrollview.h"  // for SVEvent (ptr only), SVEventHandler, ScrollView
+#include "svmnode.h"
+#endif
 
 class BLOCK_LIST;
 class PAGE_RES;
@@ -31,6 +34,7 @@ namespace tesseract {
 
 // A small event handler class to process incoming events to
 // this window.
+#ifndef GRAPHICS_DISABLED
 class PGEventHandler : public SVEventHandler {
   public:
    PGEventHandler(tesseract::Tesseract* tess) : tess_(tess) {
@@ -39,6 +43,7 @@ class PGEventHandler : public SVEventHandler {
   private:
     tesseract::Tesseract* tess_;
 };
+#endif
 
 extern BLOCK_LIST *current_block_list;
 extern STRING_VAR_H (editor_image_win_name, "EditorImage",

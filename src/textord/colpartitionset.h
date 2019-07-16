@@ -94,8 +94,10 @@ class ColPartitionSet : public ELIST_LINK {
   // Return a copy of this. If good_only will only copy the Good ColPartitions.
   ColPartitionSet* Copy(bool good_only);
 
+#ifndef GRAPHICS_DISABLED
   // Display the edges of the columns at the given y coords.
   void DisplayColumnEdges(int y_bottom, int y_top, ScrollView* win);
+#endif
 
   // Return the ColumnSpanningType that best explains the columns overlapped
   // by the given coords(left,right,y), with the given margins.

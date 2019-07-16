@@ -213,12 +213,14 @@ class TrainingSampleSet {
   // Adds all fonts of the given class to the shape.
   void AddAllFontsForClass(int class_id, Shape* shape) const;
 
+#ifndef GRAPHICS_DISABLED
   // Display the samples with the given indexed feature that also match
   // the given shape.
   void DisplaySamplesWithFeature(int f_index, const Shape& shape,
                                  const IntFeatureSpace& feature_space,
                                  ScrollView::Color color,
                                  ScrollView* window) const;
+#endif
 
  private:
   // Struct to store a triplet of unichar, font, distance in the distance cache.

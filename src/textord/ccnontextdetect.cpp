@@ -108,33 +108,63 @@ Pix* CCNonTextDetect::ComputeNonTextMask(bool debug, Pix* photo_map,
   if (debug) {
     pixWrite("junknoisemask.png", pix, IFF_PNG);
   }
+#ifndef GRAPHICS_DISABLED
   ScrollView* win = nullptr;
-  #ifndef GRAPHICS_DISABLED
   if (debug) {
     win = MakeWindow(0, 400, "Photo Mask Blobs");
   }
-  #endif  // GRAPHICS_DISABLED
+#endif  // GRAPHICS_DISABLED
   // Large and medium blobs are not text if they overlap with "a lot" of small
   // blobs.
   MarkAndDeleteNonTextBlobs(&blob_block->large_blobs,
                             kMaxLargeOverlapsWithSmall,
-                            win, ScrollView::DARK_GREEN, pix);
+#ifdef GRAPHICS_DISABLED
+                            nullptr, 0,
+#else
+                            win, ScrollView::DARK_GREEN,
+#endif
+                            pix);
   MarkAndDeleteNonTextBlobs(&blob_block->blobs, kMaxMediumOverlapsWithSmall,
-                          win, ScrollView::WHITE, pix);
+#ifdef GRAPHICS_DISABLED
+                            nullptr, 0,
+#else
+                            win, ScrollView::WHITE,
+#endif
+                            pix);
   // Clear the grid of small blobs and insert the medium blobs.
   Clear();
   InsertBlobList(&blob_block->blobs);
   MarkAndDeleteNonTextBlobs(&blob_block->large_blobs,
                             kMaxLargeOverlapsWithMedium,
-                            win, ScrollView::DARK_GREEN, pix);
+#ifdef GRAPHICS_DISABLED
+                            nullptr, 0,
+#else
+                            win, ScrollView::DARK_GREEN,
+#endif
+                            pix);
   // Clear again before we start deleting the blobs in the grid.
   Clear();
   MarkAndDeleteNonTextBlobs(&blob_block->noise_blobs, -1,
-                            win, ScrollView::CORAL, pix);
+#ifdef GRAPHICS_DISABLED
+                            nullptr, 0,
+#else
+                            win, ScrollView::CORAL,
+#endif
+                            pix);
   MarkAndDeleteNonTextBlobs(&blob_block->small_blobs, -1,
-                            win, ScrollView::GOLDENROD, pix);
+#ifdef GRAPHICS_DISABLED
+                            nullptr, 0,
+#else
+                            win, ScrollView::GOLDENROD,
+#endif
+                            pix);
   MarkAndDeleteNonTextBlobs(&blob_block->blobs, -1,
-                            win, ScrollView::WHITE, pix);
+#ifdef GRAPHICS_DISABLED
+                            nullptr, 0,
+#else
+                            win, ScrollView::WHITE,
+#endif
+                            pix);
   if (debug) {
     #ifndef GRAPHICS_DISABLED
     win->Update();
@@ -246,8 +276,13 @@ static TBOX AttemptBoxExpansion(const TBOX& box, const IntGrid& noise_density,
 // blobs are drawn on it in ok_color.
 void CCNonTextDetect::MarkAndDeleteNonTextBlobs(BLOBNBOX_LIST* blobs,
                                                 int max_blob_overlaps,
+#ifdef GRAPHICS_DISABLED
+                                                void* win,
+                                                int ok_color,
+#else
                                                 ScrollView* win,
                                                 ScrollView::Color ok_color,
+#endif
                                                 Pix* nontext_mask) {
   int imageheight = tright().y() - bleft().x();
   BLOBNBOX_IT blob_it(blobs);

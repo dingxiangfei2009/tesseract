@@ -100,7 +100,9 @@ class ColSegment : public ELIST_LINK {
   void set_type();
 
   // Provides a color for BBGrid to draw the rectangle.
+#ifndef GRAPHICS_DISABLED
   ScrollView::Color  BoxColor() const;
+#endif
 
   // Insert a rectangle into bounding_box_
   void InsertBox(const TBOX& other);
@@ -170,8 +172,10 @@ class TableFinder {
   const ICOORD& bleft() const;
   const ICOORD& tright() const;
 
+#ifndef GRAPHICS_DISABLED
   // Makes a window for debugging, see BBGrid
   ScrollView* MakeWindow(int x, int y, const char* window_name);
+#endif
 
   //////// Functions to insert objects from the grid into the table finder.
   //////// In all cases, ownership is transferred to the table finder.
@@ -370,6 +374,7 @@ class TableFinder {
   //////// for visual debugging / intuition.
   ////////
 
+#ifndef GRAPHICS_DISABLED
   // Displays Colpartitions marked as table row. Overlays them on top of
   // part_grid_.
   void DisplayColSegments(ScrollView* win, ColSegment_LIST *cols,
@@ -388,6 +393,7 @@ class TableFinder {
                                       ScrollView::Color default_color);
   void DisplayColSegmentGrid(ScrollView* win, ColSegmentGrid* grid,
                              ScrollView::Color color);
+#endif
 
   // Merge all colpartitions in table regions to make them a single
   // colpartition and revert types of isolated table cells not

@@ -27,7 +27,6 @@
 #include <cstdlib>
 #include "errcode.h"
 #include "helpers.h"
-#include "scrollview.h"
 #include "tprintf.h"
 
 using tesseract::KDPairInc;

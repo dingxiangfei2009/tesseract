@@ -22,11 +22,19 @@
 /**----------------------------------------------------------------------------
           Include Files and Type Defines
 ----------------------------------------------------------------------------**/
+
+// Include automatically generated configuration file if running autoconf.
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+
 #include "genericvector.h"
 #include "matchdefs.h"
 #include "mfoutline.h"
 #include "protos.h"
+#ifndef GRAPHICS_DISABLED
 #include "scrollview.h"
+#endif
 #include "unicharset.h"
 
 class FCOORD;
@@ -238,9 +246,11 @@ void ShowMatchDisplay();
 
 namespace tesseract {
 
+#ifndef GRAPHICS_DISABLED
 // Clears the given window and draws the featurespace guides for the
 // appropriate normalization method.
 void ClearFeatureSpaceWindow(NORM_METHOD norm_method, ScrollView* window);
+#endif  // GRAPHICS_DISABLED
 
 }  // namespace tesseract.
 

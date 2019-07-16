@@ -286,8 +286,8 @@ double StructuredTable::CalculateCellFilledPercentage(int row, int column) {
   return std::min(1.0, area_covered / current_area);
 }
 
-void StructuredTable::Display(ScrollView* window, ScrollView::Color color) {
 #ifndef GRAPHICS_DISABLED
+void StructuredTable::Display(ScrollView* window, ScrollView::Color color) {
   window->Brush(ScrollView::NONE);
   window->Pen(color);
   window->Rectangle(bounding_box_.left(), bounding_box_.bottom(),
@@ -301,8 +301,8 @@ void StructuredTable::Display(ScrollView* window, ScrollView::Color color) {
                  bounding_box_.right(), cell_y_[i]);
   }
   window->UpdateWindow();
-#endif
 }
+#endif
 
 // Clear structure information.
 void StructuredTable::ClearStructure() {

@@ -21,7 +21,9 @@
 #define TESSERACT_TEXTORD_CCPHOTODETECT_H_
 
 #include "blobgrid.h"
+#ifndef GRAPHICS_DISABLED
 #include "scrollview.h"
+#endif
 
 namespace tesseract {
 
@@ -69,7 +71,11 @@ class CCNonTextDetect : public BlobGrid {
   // If the win is not nullptr, deleted blobs are drawn on it in red, and kept
   void MarkAndDeleteNonTextBlobs(BLOBNBOX_LIST* blobs,
                                  int max_blob_overlaps,
+#ifdef GRAPHICS_DISABLED
+                                 void* win, int ok_color,
+#else
                                  ScrollView* win, ScrollView::Color ok_color,
+#endif
                                  Pix* nontext_mask);
   // Returns true if the given blob overlaps more than max_overlaps blobs
   // in the current grid.

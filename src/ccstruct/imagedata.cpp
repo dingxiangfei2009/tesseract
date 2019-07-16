@@ -25,7 +25,7 @@
 
 #if defined(__MINGW32__)
 #include <unistd.h>
-#else
+#elif defined HAVE_THREADS
 #include <thread>
 #endif
 
@@ -34,7 +34,6 @@
 #include "callcpp.h"     // for window_wait
 #include "helpers.h"     // for IntCastRounded, TRand, ClipToRange, Modulo
 #include "rect.h"        // for TBOX
-#include "scrollview.h"  // for ScrollView, ScrollView::CYAN, ScrollView::NONE
 #include "serialis.h"    // for TFile
 #include "tprintf.h"     // for tprintf
 #include <cinttypes>     // for PRId64
@@ -65,10 +64,10 @@ void WordFeature::ComputeSize(const GenericVector<WordFeature>& features,
   }
 }
 
+#ifndef GRAPHICS_DISABLED
 // Draws the features in the given window.
 void WordFeature::Draw(const GenericVector<WordFeature>& features,
                        ScrollView* window) {
-#ifndef GRAPHICS_DISABLED
   for (int f = 0; f < features.size(); ++f) {
     FCOORD pos(features[f].x_, features[f].y_);
     FCOORD dir;
@@ -79,8 +78,8 @@ void WordFeature::Draw(const GenericVector<WordFeature>& features,
     window->DrawTo(IntCastRounded(pos.x() + dir.x()),
                       IntCastRounded(pos.y() + dir.y()));
   }
-#endif
 }
+#endif
 
 // Writes to the given file. Returns false in case of error.
 bool WordFeature::Serialize(FILE* fp) const {
@@ -389,8 +388,10 @@ DocumentData::DocumentData(const STRING& name)
       reader_(nullptr) {}
 
 DocumentData::~DocumentData() {
+#ifndef GRAPHICS_DISABLED
   SVAutoLock lock_p(&pages_mutex_);
   SVAutoLock lock_g(&general_mutex_);
+#endif
 }
 
 // Reads all the pages in the given lstmf filename to the cache. The reader
@@ -405,8 +406,10 @@ bool DocumentData::LoadDocument(const char* filename, int start_page,
 // Sets up the document, without actually loading it.
 void DocumentData::SetDocument(const char* filename, int64_t max_memory,
                                FileReader reader) {
+#ifndef GRAPHICS_DISABLED
   SVAutoLock lock_p(&pages_mutex_);
   SVAutoLock lock(&general_mutex_);
+#endif
   document_name_ = filename;
   pages_offset_ = -1;
   max_memory_ = max_memory;
@@ -415,7 +418,9 @@ void DocumentData::SetDocument(const char* filename, int64_t max_memory,
 
 // Writes all the pages to the given filename. Returns false on error.
 bool DocumentData::SaveDocument(const char* filename, FileWriter writer) {
+#ifndef GRAPHICS_DISABLED
   SVAutoLock lock(&pages_mutex_);
+#endif
   TFile fp;
   fp.OpenWrite(nullptr);
   if (!pages_.Serialize(&fp) || !fp.CloseWrite(filename, writer)) {
@@ -425,7 +430,9 @@ bool DocumentData::SaveDocument(const char* filename, FileWriter writer) {
   return true;
 }
 bool DocumentData::SaveToBuffer(GenericVector<char>* buffer) {
+#ifndef GRAPHICS_DISABLED
   SVAutoLock lock(&pages_mutex_);
+#endif
   TFile fp;
   fp.OpenWrite(buffer);
   return pages_.Serialize(&fp);
@@ -433,7 +440,9 @@ bool DocumentData::SaveToBuffer(GenericVector<char>* buffer) {
 
 // Adds the given page data to this document, counting up memory.
 void DocumentData::AddPageToDocument(ImageData* page) {
+#ifndef GRAPHICS_DISABLED
   SVAutoLock lock(&pages_mutex_);
+#endif
   pages_.push_back(page);
   set_memory_used(memory_used() + page->MemoryUsed());
 }
@@ -443,11 +452,17 @@ void DocumentData::AddPageToDocument(ImageData* page) {
 void DocumentData::LoadPageInBackground(int index) {
   ImageData* page = nullptr;
   if (IsPageAvailable(index, &page)) return;
+#ifndef GRAPHICS_DISABLED
   SVAutoLock lock(&pages_mutex_);
+#endif
   if (pages_offset_ == index) return;
   pages_offset_ = index;
   pages_.clear();
+#ifdef GRAPHICS_DISABLED
+  ReCachePagesFunc(this);
+#else
   SVSync::StartThread(ReCachePagesFunc, this);
+#endif
 }
 
 // Returns a pointer to the page with the given index, modulo the total
@@ -456,15 +471,19 @@ const ImageData* DocumentData::GetPage(int index) {
   ImageData* page = nullptr;
   while (!IsPageAvailable(index, &page)) {
     // If there is no background load scheduled, schedule one now.
+#ifdef HAVE_THREADS
     pages_mutex_.Lock();
+#endif
     bool needs_loading = pages_offset_ != index;
+#ifdef HAVE_THREADS
     pages_mutex_.Unlock();
+#endif
     if (needs_loading) LoadPageInBackground(index);
     // We can't directly load the page, or the background load will delete it
     // while the caller is using it, so give it a chance to work.
 #if defined(__MINGW32__)
     sleep(1);
-#else
+#elif defined HAVE_THREADS
     std::this_thread::sleep_for(std::chrono::seconds(1));
 #endif
   }
@@ -475,7 +494,9 @@ const ImageData* DocumentData::GetPage(int index) {
 // which may be nullptr if the document is empty. May block, even though it
 // doesn't guarantee to return true.
 bool DocumentData::IsPageAvailable(int index, ImageData** page) {
+#ifndef GRAPHICS_DISABLED
   SVAutoLock lock(&pages_mutex_);
+#endif
   int num_pages = NumPages();
   if (num_pages == 0 || index < 0) {
     *page = nullptr;  // Empty Document.
@@ -494,7 +515,9 @@ bool DocumentData::IsPageAvailable(int index, ImageData** page) {
 // Removes all pages from memory and frees the memory, but does not forget
 // the document metadata.
 int64_t DocumentData::UnCache() {
+#ifndef GRAPHICS_DISABLED
   SVAutoLock lock(&pages_mutex_);
+#endif
   int64_t memory_saved = memory_used();
   pages_.clear();
   pages_offset_ = -1;
@@ -523,7 +546,9 @@ void DocumentData::Shuffle() {
 // Locks the pages_mutex_ and Loads as many pages can fit in max_memory_
 // starting at index pages_offset_.
 bool DocumentData::ReCachePages() {
+#ifndef GRAPHICS_DISABLED
   SVAutoLock lock(&pages_mutex_);
+#endif
   // Read the file.
   set_total_pages(0);
   set_memory_used(0);

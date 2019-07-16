@@ -20,7 +20,6 @@
 #include "allheaders.h"
 #include "imagedata.h"
 #include "pageres.h"
-#include "scrollview.h"
 
 namespace tesseract {
 

@@ -31,7 +31,7 @@ CCUtil::~CCUtil() = default;
 CCUtilMutex::CCUtilMutex() {
 #ifdef _WIN32
   mutex_ = CreateMutex(0, FALSE, 0);
-#else
+#elif defined HAVE_THREADS
   pthread_mutex_init(&mutex_, nullptr);
 #endif
 }
@@ -39,7 +39,7 @@ CCUtilMutex::CCUtilMutex() {
 void CCUtilMutex::Lock() {
 #ifdef _WIN32
   WaitForSingleObject(mutex_, INFINITE);
-#else
+#elif defined HAVE_THREADS
   pthread_mutex_lock(&mutex_);
 #endif
 }
@@ -47,7 +47,7 @@ void CCUtilMutex::Lock() {
 void CCUtilMutex::Unlock() {
 #ifdef _WIN32
   ReleaseMutex(mutex_);
-#else
+#elif defined HAVE_THREADS
   pthread_mutex_unlock(&mutex_);
 #endif
 }

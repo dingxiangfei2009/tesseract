@@ -26,7 +26,6 @@
 #include "networkio.h"
 
 #include "network.h"
-#include "scrollview.h"
 
 namespace tesseract {
 

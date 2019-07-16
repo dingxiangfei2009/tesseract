@@ -25,7 +25,6 @@
 #include "blobbox.h"       // For BlobRegionType.
 #include "ocrblock.h"
 #include "rect.h"           // For TBOX.
-#include "scrollview.h"
 #include "tabfind.h"        // For WidthCallback.
 #include "tabvector.h"      // For BLOBNBOX_CLIST.
 

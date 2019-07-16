@@ -23,7 +23,9 @@
 #include "params.h"
 #include "unichar.h"
 
+#ifndef GRAPHICS_DISABLED
 class ScrollView;
+#endif
 
 typedef enum {
   Black,
@@ -79,6 +81,7 @@ typedef enum {
 void cprintf (                   //Trace printf
 const char *format, ...          //special message
 );
+#ifndef GRAPHICS_DISABLED
 ScrollView *c_create_window(                   /*create a window */
                       const char *name,  /*name/title of window */
                       int16_t xpos,        /*coords of window */
@@ -90,6 +93,7 @@ ScrollView *c_create_window(                   /*create a window */
                       double ymin,       /*getting lost in */
                       double ymax        /*empty space */
                      );
+#endif
 void c_line_color_index(  /*set color */
                         void *win,
                         C_COL index);
@@ -105,7 +109,9 @@ void c_make_current(  /*move pen */
                     void *win);
 void c_clear_window(  /*move pen */
                     void *win);
+#ifndef GRAPHICS_DISABLED
 char window_wait(ScrollView* win);
+#endif
 void reverse32(void *ptr);
 void reverse16(void *ptr);
 

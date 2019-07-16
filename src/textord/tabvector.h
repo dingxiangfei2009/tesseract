@@ -30,7 +30,9 @@
 #include <algorithm>
 
 class BLOBNBOX;
+#ifndef GRAPHICS_DISABLED
 class ScrollView;
+#endif
 
 namespace tesseract {
 
@@ -351,8 +353,10 @@ class TabVector : public ELIST2_LINK {
   // Print basic information about this tab vector and every box in it.
   void Debug(const char* prefix);
 
+#ifndef GRAPHICS_DISABLED
   // Draw this tabvector in place in the given window.
   void Display(ScrollView* tab_win);
+#endif
 
   // Refit the line and/or re-evaluate the vector if the dirty flags are set.
   void FitAndEvaluateIfNeeded(const ICOORD& vertical, TabFind* finder);

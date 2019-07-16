@@ -50,7 +50,9 @@ Classify::~Classify() {}
 #include "fontinfo.h"
 #include "intproto.h"
 #include "mfoutline.h"
+#ifndef GRAPHICS_DISABLED
 #include "scrollview.h"
+#endif
 #include "shapeclassifier.h"
 #include "shapetable.h"
 #include "unicity_table.h"
@@ -205,16 +207,20 @@ Classify::Classify()
 
   NumAdaptationsFailed = 0;
 
+#ifndef GRAPHICS_DISABLED
   learn_debug_win_ = nullptr;
   learn_fragmented_word_debug_win_ = nullptr;
   learn_fragments_debug_win_ = nullptr;
+#endif
 }
 
 Classify::~Classify() {
   EndAdaptiveClassifier();
+#ifndef GRAPHICS_DISABLED
   delete learn_debug_win_;
   delete learn_fragmented_word_debug_win_;
   delete learn_fragments_debug_win_;
+#endif
 }
 
 

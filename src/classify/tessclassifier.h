@@ -50,6 +50,7 @@ class TessClassifier : public ShapeClassifier {
   // Only needs to be overridden if GetShapeTable() can return nullptr.
   const UNICHARSET& GetUnicharset() const override;
 
+#ifndef GRAPHICS_DISABLED
   // Displays classification as the given shape_id. Creates as many windows
   // as it feels fit, using index as a guide for placement. Adds any created
   // windows to the windows output and returns a new index that may be used
@@ -58,6 +59,7 @@ class TessClassifier : public ShapeClassifier {
   int DisplayClassifyAs(const TrainingSample& sample, Pix* page_pix,
                                 int unichar_id, int index,
                                 PointerVector<ScrollView>* windows) override;
+#endif
 
  private:
   // Indicates that this classifier is to use just the ClassPruner, or the

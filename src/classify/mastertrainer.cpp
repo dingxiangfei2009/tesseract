@@ -33,7 +33,6 @@
 #include "sampleiterator.h"
 #include "shapeclassifier.h"
 #include "shapetable.h"
-#include "svmnode.h"
 
 #include "scanutils.h"
 

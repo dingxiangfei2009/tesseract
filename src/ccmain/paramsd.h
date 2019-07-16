@@ -22,6 +22,11 @@
 #ifndef TESSERACT_CCMAIN_PARAMSD_H_
 #define TESSERACT_CCMAIN_PARAMSD_H_
 
+// Include automatically generated configuration file if running autoconf.
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+
 #ifndef GRAPHICS_DISABLED
 
 #include "elst.h"        // for ELIST_ITERATOR, ELISTIZEH, ELIST_LINK

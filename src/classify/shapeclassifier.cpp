@@ -26,9 +26,11 @@
 
 #include "shapeclassifier.h"
 #include "genericvector.h"
+#ifndef GRAPHICS_DISABLED
 #include "scrollview.h"
-#include "shapetable.h"
 #include "svmnode.h"
+#endif
+#include "shapetable.h"
 #include "trainingsample.h"
 #include "tprintf.h"
 
@@ -156,6 +158,7 @@ void ShapeClassifier::DebugDisplay(const TrainingSample& sample,
 #endif  // GRAPHICS_DISABLED
 }
 
+#ifndef GRAPHICS_DISABLED
 // Displays classification as the given shape_id. Creates as many windows
 // as it feels fit, using index as a guide for placement. Adds any created
 // windows to the windows output and returns a new index that may be used
@@ -168,6 +171,7 @@ int ShapeClassifier::DisplayClassifyAs(
   // Does nothing in the default implementation.
   return index;
 }
+#endif
 
 // Prints debug information on the results.
 void ShapeClassifier::UnicharPrintResults(

@@ -31,7 +31,9 @@ class BLOCK_LIST;
 struct Boxa;
 struct Pixa;
 class DENORM;
+#ifndef GRAPHICS_DISABLED
 class ScrollView;
+#endif
 class STATS;
 class TO_BLOCK;
 
@@ -348,8 +350,10 @@ class ColumnFinder : public TabFind {
   // coordinate space. The destructor must delete all the DENORMs in the chain.
   DENORM* denorm_;
 
+#ifndef GRAPHICS_DISABLED
   // Various debug windows that automatically go away on completion.
   ScrollView* input_blobs_win_;
+#endif
 
   // The equation region detector pointer. Note: This pointer is passed in by
   // member function SetEquationDetect, and releasing it is NOT owned by this
@@ -358,7 +362,9 @@ class ColumnFinder : public TabFind {
 
   // Allow a subsequent instance to reuse the blocks window.
   // Not thread-safe, but multiple threads shouldn't be using windows anyway.
+#ifndef GRAPHICS_DISABLED
   static ScrollView* blocks_win_;
+#endif
 };
 
 }  // namespace tesseract.
